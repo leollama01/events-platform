@@ -24,7 +24,7 @@ class User(models.Model):
     phone_number = models.CharField(
         max_length=16, blank=False, null=False, default=None
     )
-    email = models.CharField(
+    email = models.EmailField(
         max_length=80, blank=False, null=False, default=None
     )
 
@@ -33,6 +33,9 @@ class User(models.Model):
         ordering = ('id', )
         verbose_name = 'User'
         verbose_name_plural = 'Users'
+
+    def __str__(self):
+        return self.name
 
 
 class Event(models.Model):
@@ -53,6 +56,9 @@ class Event(models.Model):
         ordering = ('id', )
         verbose_name = 'Event'
         verbose_name_plural = 'Events'
+
+    def __str__(self):
+        return self.name
 
 
 class Payment(models.Model):
@@ -79,3 +85,6 @@ class Payment(models.Model):
         ordering = ('id', )
         verbose_name = 'Payment'
         verbose_name_plural = 'Payments'
+
+    def __str__(self):
+        return self.id

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuário</title>
+</head>
+<body>
+    {% if success %}
+        {{ success }}
+    {% endif %}
+    {% if fail %}
+        {{ fail }}
+    {% endif %}
+    {% if user_info %}
+        <form action="/user/update/{{ user_info.id }}/" method="POST">
+            {% csrf_token %}
+            <input type="hidden" value={{ user_info.id }}>
+            <input type="text" placeholder="name" name="name" value="{{ user_info.name }}">
+            <input type="text" placeholder="age" name="age" value="{{ user_info.age }}">
+            <input type="text" placeholder="country" name="country" value="{{ user_info.country }}">
+            <input type="text" placeholder="state" name="state" value="{{ user_info.state }}">
+            <input type="text" placeholder="city" name="city" value="{{ user_info.city }}">
+            <input type="text" placeholder="phone_number" name="phone_number" value="{{ user_info.phone_number }}">
+            <input type="text" placeholder="email" name="email" value="{{ user_info.email }}">
+            <div>
+                <a href="/user/info/0/">voltar</a>
+                <button type="submit">Salvar</button>
+            </div>
+        </form>
+    {% else %}
+        <div>
+            <a href="/user/insert/">Adicionar novo usuário</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th class="d-none">Id</th>
+                    <th>Nome</th>
+                    <th>Idade</th>
+                    <th>País</th>
+                    <th>Email</th>
+                    <th>Editar</th>
+                    <th>Excluir</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if 'users' %}
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.age }}</td>
+                            <td>{{ user.country }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                <a href="/user/update/{{ user.id }}/">&#x1F58A;</a>
+                            </td>
+                            <td>
+                                <a href="/user/delete/{{ user.id }}/">&#10005;</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+
+        {% comment %} <div>
+            deseja adicionar novo usuario?
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="text" placeholder="name" name="name">
+                <input type="text" placeholder="age" name="age">
+                <input type="text" placeholder="state" name="state">
+                <input type="text" placeholder="city" name="city">
+                <input type="text" placeholder="phone_number" name="phone_number">
+                <input type="text" placeholder="email" name="email">
+
+                <button type="submit">Adicionar</button>
+            </form>
+        </div> {% endcomment %}
+
+        <a href="/">Página Inicial</a>
+
+    {% endif %}
+</body>
+</html>
