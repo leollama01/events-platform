@@ -126,3 +126,19 @@ def user_delete(request, id):
         my_context['fail'] = 'Não foi possível excluir o usuário selecionado.'
 
     return render(request, 'user/user.html', my_context)
+
+
+def event_insert(request):
+    pass
+
+
+def event_info(request, id):
+    pass
+
+
+def event_update(request, id):
+    pass
+
+
+def event_delete(request, id):
+    pass

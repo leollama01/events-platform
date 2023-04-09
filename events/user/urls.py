@@ -13,16 +13,14 @@ urlpatterns = [
     path('user/delete/<int:id>/', views.user_delete),
 
     # Event
-    # path('event/', views.index),
-    # path('event/info/', views.index),
-    # path('event/insert/', views.index),
-    # path('event/update/', views.index),
-    # path('event/delete/', views.index),
+    path('event/insert/', views.event_insert),
+    path('event/info/<int:id>/', views.event_info),
+    path('event/update/<int:id>/', views.event_update),
+    path('event/delete/<int:id>/', views.event_delete),
 
     # Payment
-    # path('payment/', views.index),
-    # path('payment/info/', views.index),
     # path('payment/insert/', views.index),
-    # path('payment/update/', views.index),
-    # path('payment/delete/', views.index),
+    # path('payment/info/<int:id>/', views.index),
+    # path('payment/update/<int:id>/', views.index),
+    # path('payment/delete/<int:id>/', views.index),
 ]
