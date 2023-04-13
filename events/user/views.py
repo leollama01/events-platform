@@ -1,6 +1,8 @@
 # from django.http import JsonResponse
+from datetime import datetime
+
 from django.shortcuts import redirect, render
-from user.models import User
+from user.models import Event, User
 
 # Create your views here.
 
@@ -129,16 +131,110 @@ def user_delete(request, id):
 
 
 def event_insert(request):
-    pass
+    if request.method == 'POST':
+        can_save = True
+        name = request.POST.get('name')
+        date = request.POST.get('date')
+        local = request.POST.get('local')
+        description = request.POST.get('description')
+        free_space = request.POST.get('free_space')
+
+        for i in request.POST:
+            if request.POST[i] == '':
+                can_save = False
+
+        if can_save:
+            try:
+                Event(
+                    name=name, date=date, local=local, description=description,
+                    free_space=free_space
+                ).save()
+
+                my_context = {
+                    'success': True
+                }
+
+            except Exception:
+                my_context = {
+                    'fail': 'Não foi possível adicionar um novo evento.'
+                }
+
+        else:
+            my_context = {
+                'fail': 'Preencha todos os campos.'
+            }
+
+        return render(request, 'user/event_insert.html', my_context)
+
+    return render(request, 'user/event_insert.html')
 
 
 def event_info(request, id):
-    pass
+    my_context = {}
+
+    if id == 0:
+        my_context['events'] = Event.objects.all()
+        return render(request, 'user/event.html', my_context)
+
+    else:
+        try:
+            event = Event.objects.get(id=id)
+            _date = f"{str(event.date.year)}-{str(event.date.month).zfill(2)}-{str(event.date.day).zfill(2)}"
+            print(_date)
+            my_context['event_info'] = {
+                'id': event.id,
+                'name': event.name,
+                'date': _date,
+                'local': event.local,
+                'description': event.description,
+                'free_space': event.free_space,
+            }
+
+            return render(request, 'user/event.html', my_context)
+
+        except Exception:
+            return redirect('/')
 
 
 def event_update(request, id):
-    pass
+    my_context = {
+        'events': Event.objects.all()
+    }
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        date = request.POST.get('date')
+        local = request.POST.get('local')
+        description = request.POST.get('description')
+        free_space = request.POST.get('free_space')
+
+        try:
+            Event.objects.filter(id=id).update(
+                name=name, date=date, local=local, description=description,
+                free_space=free_space
+            )
+
+            my_context['success'] = 'Evento atualizado com sucesso.'
+
+        except Exception:
+            my_context['fail'] = 'Falha ao atualizar evento.'
+
+        return render(request, 'user/event.html', my_context)
+
+    else:
+        return redirect('/event/info/' + str(id) + '/')
 
 
 def event_delete(request, id):
-    pass
+    my_context = {
+        'events': Event.objects.all()
+    }
+
+    try:
+        Event.objects.get(id=id).delete()
+        my_context['success'] = 'Evento excluído com sucesso.'
+
+    except Exception:
+        my_context['fail'] = 'Não foi possível excluir o evento selecionado.'
+
+    return render(request, 'user/event.html', my_context)

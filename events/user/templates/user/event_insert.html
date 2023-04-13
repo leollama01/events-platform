@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Novo Usuário</title>
+    <title>Adicionar Novo Evento</title>
 </head>
 <body>
     {% if success %}
-        Usuário adicionado com sucesso
+        Evento adicionado com sucesso
     {% else %}
         {{ fail }}
     {% endif %}
@@ -16,17 +16,13 @@
         <form action="" method="POST">
             {% csrf_token %}
             <input type="text" placeholder="name" name="name">
-            <input type="text" placeholder="age" name="age">
-            <input type="text" placeholder="country" name="country">
-            <input type="text" placeholder="state" name="state">
-            <input type="text" placeholder="city" name="city">
-            <input type="text" placeholder="phone_number" name="phone_number">
-            <input type="text" placeholder="email" name="email">
-
+            <input type="date" name="date">
+            <input type="text" placeholder="local" name="local">
+            <input type="text" placeholder="description" name="description">
+            <input type="number" placeholder="free_space" name="free_space">
             <button type="submit">Adicionar</button>
-            
         </form>
     {% endif %}
-    <a href="/user/info/0/">Voltar</a>
+    <a href="/event/info/0/">Voltar</a>
 </body>
 </html>

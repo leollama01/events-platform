@@ -63,10 +63,18 @@ class Event(models.Model):
 
 class Payment(models.Model):
 
+    '''
     payment_method = (
         ('CA', 'Cash'),
         ('CC', 'Credit Card'),
         ('DC', 'Debit Card'),
+    )
+    '''
+
+    payment_method = (
+        ('DI', 'Dinheiro'),
+        ('CC', 'Cartão de Crédito'),
+        ('DC', 'Cartão de Débito'),
     )
 
     id = models.AutoField(primary_key=True)
