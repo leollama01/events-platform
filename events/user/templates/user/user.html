@@ -1,12 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.css' %}">
     <title>Usuário</title>
 </head>
 <body>
+    {% include 'partials/header.html' %}
     {% if success %}
         {{ success }}
     {% endif %}
@@ -66,23 +69,8 @@
             </tbody>
         </table>
 
-        {% comment %} <div>
-            deseja adicionar novo usuario?
-            <form action="" method="POST">
-                {% csrf_token %}
-                <input type="text" placeholder="name" name="name">
-                <input type="text" placeholder="age" name="age">
-                <input type="text" placeholder="state" name="state">
-                <input type="text" placeholder="city" name="city">
-                <input type="text" placeholder="phone_number" name="phone_number">
-                <input type="text" placeholder="email" name="email">
-
-                <button type="submit">Adicionar</button>
-            </form>
-        </div> {% endcomment %}
-
-        <a href="/">Página Inicial</a>
-
     {% endif %}
+
+    <script src="{% static '/bootstrap/js/bootstrap.js' %}"></script>
 </body>
 </html>

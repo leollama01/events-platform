@@ -180,7 +180,7 @@ def event_info(request, id):
         try:
             event = Event.objects.get(id=id)
             _date = f"{str(event.date.year)}-{str(event.date.month).zfill(2)}-{str(event.date.day).zfill(2)}"
-            print(_date)
+
             my_context['event_info'] = {
                 'id': event.id,
                 'name': event.name,
