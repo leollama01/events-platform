@@ -7,28 +7,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static '/css/style.css' %}">
-    <title>Adicionar Novo Evento</title>
+    <title>Adicionar Novo Pagamento</title>
 </head>
 <body>
     {% include 'partials/header.html' %}
     {% if success %}
-        Evento adicionado com sucesso
+        Pagamento adicionado com sucesso
     {% else %}
         {{ fail }}
     {% endif %}
     {% if not success %}
         <form action="" method="POST">
             {% csrf_token %}
-            <input type="text" placeholder="name" name="name">
+            <input type="number" placeholder="value" name="value">
             <input type="date" name="date">
-            <input type="text" placeholder="local" name="local">
-            <input type="text" placeholder="description" name="description">
-            <input type="number" placeholder="free_space" name="free_space">
+            <input type="checkbox" name="status" value="false">
+            <select name="method">
+                <option value="">--------------------</option>
+                {% for key, value in payment_method.items %}
+                    <option value="{{ key }}">{{ value }}</option>
+                {% endfor %}
+            </select>
+
             <button type="submit">Adicionar</button>
+            
         </form>
     {% endif %}
-    <a href="/event/info/0/">Voltar</a>
+    <a href="/payment/info/0/">Voltar</a>
 
     <script src="{% static '/bootstrap/js/bootstrap.js' %}"></script>
+    <script src="{% static '/js/script.js' %}"></script>
 </body>
 </html>

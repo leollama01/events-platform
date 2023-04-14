@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static '/css/style.css' %}">
+    <title>Pagamento</title>
+</head>
+<body>
+    {% include 'partials/header.html' %}
+    {% if success %}
+        {{ success }}
+    {% endif %}
+    {% if fail %}
+        {{ fail }}
+    {% endif %}
+    {% if payment_info %}
+        <form action="/payment/update/{{ payment_info.id }}/" method="POST">
+            {% csrf_token %}
+            <input type="hidden" value={{ payment_info.id }}>
+            <input type="number" placeholder="value" name="value" value="{{ payment_info.value }}">
+            <input type="date" name="date" value="{{ payment_info.date }}">
+            <input type="checkbox" name="status"
+                {% if payment_info.status %}checked value="true"{% else %}value="false"{% endif %}>
+            <select name="method">
+                <option value="">--------------------</option>
+                {% for key, value in payment_info.payment_method.items %}
+                    <option value="{{ key }}" {% if payment_info.method == key %}selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+            </select>
+            <div>
+                <a href="/payment/info/0/">voltar</a>
+                <button type="submit">Salvar</button>
+            </div>
+        </form>
+    {% else %}
+        <div>
+            <a href="/payment/insert/">Adicionar novo pagamento</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Valor</th>
+                    <th>Data</th>
+                    <th>Situação</th>
+                    <th>Método</th>
+                    <th>Editar</th>
+                    <th>Excluir</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if 'payments' %}
+                    {% for payment in payments %}
+                        <tr>
+                            <td>{{ payment.id }}</td>
+                            <td>{{ payment.value }}</td>
+                            <td>{{ payment.date }}</td>
+                            <td>
+                                {% if payment.status == False %}
+                                    Pendente
+                                {% else %}
+                                    Aprovado
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if payment.method == 'DI' %}
+                                    Dinheiro
+                                {% elif payment.method == 'CC' %}
+                                    Cartão de Crédito
+                                {% elif payment.method == 'DC' %}
+                                    Cartão de Débito
+                                {% else %}
+                                    {{ payment.method }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="/payment/update/{{ payment.id }}/">&#x1F58A;</a>
+                            </td>
+                            <td>
+                                <a href="/payment/delete/{{ payment.id }}/">&#10005;</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+
+    {% endif %}
+
+    <script src="{% static '/bootstrap/js/bootstrap.js' %}"></script>
+    <script src="{% static '/js/script.js' %}"></script>
+</body>
+</html>

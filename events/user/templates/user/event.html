@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static '/css/style.css' %}">
     <title>Eventos</title>
 </head>
 <body>
@@ -21,7 +22,7 @@
             {% csrf_token %}
             <input type="hidden" value={{ event_info.id }}>
             <input type="text" placeholder="name" name="name" value="{{ event_info.name }}">
-            <input type="date" placeholder="date" name="date" value="{{ event_info.date }}">
+            <input type="date" name="date" value="{{ event_info.date }}">
             <input type="text" placeholder="local" name="local" value="{{ event_info.local }}">
             <input type="text" placeholder="description" name="description" value="{{ event_info.description }}">
             <input type="number" placeholder="free_space" name="free_space" value="{{ event_info.free_space }}">
@@ -37,7 +38,7 @@
         <table>
             <thead>
                 <tr>
-                    <th class="d-none">Id</th>
+                    <th>Id</th>
                     <th>Nome</th>
                     <th>Data</th>
                     <th>Local</th>
@@ -69,7 +70,7 @@
         <a href="/">Página Inicial</a>
 
     {% endif %}
-    
+
     <script src="{% static '/bootstrap/js/bootstrap.js' %}"></script>
 </body>
 </html>

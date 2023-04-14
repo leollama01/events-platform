@@ -1,8 +1,6 @@
 # from django.http import JsonResponse
-from datetime import datetime
-
 from django.shortcuts import redirect, render
-from user.models import Event, User
+from user.models import Event, Payment, User
 
 # Create your views here.
 
@@ -238,3 +236,111 @@ def event_delete(request, id):
         my_context['fail'] = 'Não foi possível excluir o evento selecionado.'
 
     return render(request, 'user/event.html', my_context)
+
+
+def payment_insert(request):
+    my_context = {
+        'payment_method': dict(Payment.payment_method)
+    }
+
+    if request.method == 'POST':
+        can_save = True
+        value = request.POST.get('value')
+        date = request.POST.get('date')
+        status = request.POST.get('status')
+        method = request.POST.get('method')
+
+        status = True if status is not None else False
+
+        for i in request.POST:
+            if request.POST[i] == '':
+                can_save = False
+
+        if can_save:
+            try:
+                Payment(
+                    value=value, date=date, status=status, method=method
+                ).save()
+
+                my_context['success'] = True
+
+            except Exception:
+                my_context['fail'] = 'Não foi possível adicionar um novo pagamento.'
+
+        else:
+            my_context['fail'] = 'Preencha todos os campos.'
+
+        return render(request, 'user/payment_insert.html', my_context)
+
+    return render(request, 'user/payment_insert.html', my_context)
+
+
+def payment_info(request, id):
+    my_context = {}
+
+    if id == 0:
+        my_context['payments'] = Payment.objects.all()
+        return render(request, 'user/payment.html', my_context)
+
+    else:
+        try:
+            payment = Payment.objects.get(id=id)
+            _date = f"{str(payment.date.year)}-{str(payment.date.month).zfill(2)}-{str(payment.date.day).zfill(2)}"
+
+            my_context['payment_info'] = {
+                'id': payment.id,
+                'value': payment.value,
+                'date': _date,
+                'status': payment.status,
+                'method': payment.method,
+                'payment_method': dict(Payment.payment_method)
+            }
+
+            return render(request, 'user/payment.html', my_context)
+
+        except Exception:
+            return redirect('/')
+
+
+def payment_update(request, id):
+    my_context = {
+        'payments': Payment.objects.all()
+    }
+
+    if request.method == 'POST':
+        value = request.POST.get('value')
+        date = request.POST.get('date')
+        status = request.POST.get('status')
+        method = request.POST.get('method')
+
+        status = True if status is not None else False
+
+        try:
+            Payment.objects.filter(id=id).update(
+                value=value, date=date, status=status, method=method
+            )
+
+            my_context['success'] = 'Pagamento atualizado com sucesso.'
+
+        except Exception:
+            my_context['fail'] = 'Falha ao atualizar pagamento.'
+
+        return render(request, 'user/payment.html', my_context)
+
+    else:
+        return redirect('/payment/info/' + str(id) + '/')
+
+
+def payment_delete(request, id):
+    my_context = {
+        'payments': Payment.objects.all()
+    }
+
+    try:
+        Payment.objects.get(id=id).delete()
+        my_context['success'] = 'Pagamento excluído com sucesso.'
+
+    except Exception:
+        my_context['fail'] = 'Não foi possível excluir o pagamento selecionado.'
+
+    return render(request, 'user/payment.html', my_context)

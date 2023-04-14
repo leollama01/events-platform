@@ -95,4 +95,4 @@ class Payment(models.Model):
         verbose_name_plural = 'Payments'
 
     def __str__(self):
-        return self.id
+        return f"{str(self.id)} - {str(self.value)}"

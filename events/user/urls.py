@@ -19,8 +19,8 @@ urlpatterns = [
     path('event/delete/<int:id>/', views.event_delete),
 
     # Payment
-    # path('payment/insert/', views.index),
-    # path('payment/info/<int:id>/', views.index),
-    # path('payment/update/<int:id>/', views.index),
-    # path('payment/delete/<int:id>/', views.index),
+    path('payment/insert/', views.payment_insert),
+    path('payment/info/<int:id>/', views.payment_info),
+    path('payment/update/<int:id>/', views.payment_update),
+    path('payment/delete/<int:id>/', views.payment_delete),
 ]
