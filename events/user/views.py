@@ -37,7 +37,7 @@ def user_insert(request):
                 ).save()
 
                 my_context = {
-                    'success': True
+                    'success': 'Usuário adicionado com sucesso'
                 }
 
             except Exception:
@@ -149,7 +149,7 @@ def event_insert(request):
                 ).save()
 
                 my_context = {
-                    'success': True
+                    'success': 'Evento adicionado com sucesso'
                 }
 
             except Exception:
@@ -262,7 +262,7 @@ def payment_insert(request):
                     value=value, date=date, status=status, method=method
                 ).save()
 
-                my_context['success'] = True
+                my_context['success'] = 'Pagamento adicionado com sucesso'
 
             except Exception:
                 my_context['fail'] = 'Não foi possível adicionar um novo pagamento.'

@@ -1,3 +1,27 @@
 a {
     text-decoration: none;
 }
+
+.my-text-shadow {
+    color: white;
+    text-shadow: 5px 5px 10px purple;
+    font-size: 80px;
+}
+
+.my-container {
+    max-width: 800px;
+    margin: auto;
+}
+
+/* Reference: Teddy Yang: https://www.pexels.com/pt-br/foto/pessoas-dentro-da-sala-de-concertos-2263436/ */
+.event-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -2;
+}
+
+.op-01 {
+    opacity: 0.1;
+}

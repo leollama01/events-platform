@@ -11,23 +11,56 @@
 </head>
 <body>
     {% include 'partials/header.html' %}
+    <img src="{% static 'img/event-img.jpg' %}" alt="event-img" class="event-bg op-01">
     {% if success %}
-        Evento adicionado com sucesso
+        {% include 'partials/success-alert.html' %}
     {% else %}
-        {{ fail }}
+        {% if fail %}
+            {% include 'partials/fail-alert.html' %}
+        {% endif %}
     {% endif %}
     {% if not success %}
-        <form action="" method="POST">
-            {% csrf_token %}
-            <input type="text" placeholder="name" name="name">
-            <input type="date" name="date">
-            <input type="text" placeholder="local" name="local">
-            <input type="text" placeholder="description" name="description">
-            <input type="number" placeholder="free_space" name="free_space">
-            <button type="submit">Adicionar</button>
-        </form>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 offset-md-3 mt-5">
+                    <div class="card shadow-lg">
+                        <div class="card-header">
+                            Adicionar Novo Evento
+                        </div>
+                        <div class="card-body">
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="name">Nome:</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Nome do evento" name="name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="date">Data:</label>
+                                    <input type="date" class="form-control" id="date" name="date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="local">Local:</label>
+                                    <input type="text" class="form-control" id="local" placeholder="Local do evento" name="local">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Descrição:</label>
+                                    <textarea class="form-control" id="description" rows="3" placeholder="Descrição do evento" name="description"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="free_space">Espaço Livre:</label>
+                                    <input type="number" class="form-control" id="free_space" placeholder="Espaço Livre do evento" name="free_space">
+                                </div>
+                                <div class="text-end mt-3">
+                                    <a href="/event/info/0/" class="btn btn-secondary">Voltar</a>
+                                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endif %}
-    <a href="/event/info/0/">Voltar</a>
 
     <script src="{% static '/bootstrap/js/bootstrap.js' %}"></script>
 </body>

@@ -11,9 +11,12 @@
 </head>
 <body>
     {% include 'partials/header.html' %}
+    <img src="{% static 'img/event-img.jpg' %}" alt="event-img" class="event-bg">
 
-    <main>
-        Plataforma de eventos
+    <main class="text-center m-5">
+        <h1 class="my-text-shadow">Plataforma de Eventos</h1>
+        {% comment %} Just kidding {% endcomment %}
+        {% comment %} <img src="{% static '/img/nicolas-cage.png' %}" alt="Nicolas Cage" class="rounded w-100 h-100"> {% endcomment %}
     </main>
     
     <script src="{% static '/bootstrap/js/bootstrap.js' %}"></script>

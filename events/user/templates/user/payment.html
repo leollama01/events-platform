@@ -7,43 +7,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static '/css/style.css' %}">
-    <title>Pagamento</title>
+    <title>PagamentoS</title>
 </head>
 <body>
     {% include 'partials/header.html' %}
+    <img src="{% static 'img/event-img.jpg' %}" alt="event-img" class="event-bg op-01">
     {% if success %}
-        {{ success }}
+        {% include 'partials/success-alert.html' %}
     {% endif %}
     {% if fail %}
-        {{ fail }}
+        {% include 'partials/fail-alert.html' %}
     {% endif %}
     {% if payment_info %}
-        <form action="/payment/update/{{ payment_info.id }}/" method="POST">
-            {% csrf_token %}
-            <input type="hidden" value={{ payment_info.id }}>
-            <input type="number" placeholder="value" name="value" value="{{ payment_info.value }}">
-            <input type="date" name="date" value="{{ payment_info.date }}">
-            <input type="checkbox" name="status"
-                {% if payment_info.status %}checked value="true"{% else %}value="false"{% endif %}>
-            <select name="method">
-                <option value="">--------------------</option>
-                {% for key, value in payment_info.payment_method.items %}
-                    <option value="{{ key }}" {% if payment_info.method == key %}selected{% endif %}>{{ value }}</option>
-                {% endfor %}
-            </select>
-            <div>
-                <a href="/payment/info/0/">voltar</a>
-                <button type="submit">Salvar</button>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-6 mt-5">
+                <div class="card shadow-lg">
+                    <div class="card-header">
+                        Atualizar Pagamento
+                    </div>
+                    <div class="card-body">
+                        <form action="/payment/update/{{ payment_info.id }}/" method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="input-value" class="form-label">Valor:</label>
+                                <input type="number" class="form-control" id="input-value" name="value" value="{{ payment_info.value }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-date" class="form-label">Data:</label>
+                                <input type="date" class="form-control" id="input-date" name="date" value="{{ payment_info.date }}" required>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="input-status" name="status"
+                                {% if payment_info.status %}checked{% endif %}>
+                                <label class="form-check-label" for="input-status">Aprovado</label>
+                            </div>
+                            <div class="mb-3">
+                                <label for="select-method" class="form-label">Método:</label>
+                                <select class="form-select" id="select-method" name="method">
+                                    {% comment %} <option value="">--------------------</option> {% endcomment %}
+                                    {% for key, value in payment_info.payment_method.items %}
+                                        <option value="{{ key }}" {% if payment_info.method == key %}selected{% endif %}>{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="text-end">
+                                <a href="/payment/info/0/" class="btn btn-secondary">Voltar</a>
+                                <button type="submit" class="btn btn-success">Salvar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </form>
-    {% else %}
-        <div>
-            <a href="/payment/insert/">Adicionar novo pagamento</a>
         </div>
-        <table>
+    </div>
+    {% else %}
+    <div class="text-center m-3">
+        <a href="/payment/insert/" class="btn btn-success">Adicionar novo pagamento</a>
+    </div>
+    <div class="my-container">
+        <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Id</th>
+                    <th class="d-none">Id</th>
                     <th>Valor</th>
                     <th>Data</th>
                     <th>Situação</th>
@@ -56,7 +82,7 @@
                 {% if 'payments' %}
                     {% for payment in payments %}
                         <tr>
-                            <td>{{ payment.id }}</td>
+                            <td class="d-none">{{ payment.id }}</td>
                             <td>{{ payment.value }}</td>
                             <td>{{ payment.date }}</td>
                             <td>
@@ -77,17 +103,18 @@
                                     {{ payment.method }}
                                 {% endif %}
                             </td>
-                            <td>
-                                <a href="/payment/update/{{ payment.id }}/">&#x1F58A;</a>
+                            <td class="text-center">
+                                <a href="/payment/update/{{ payment.id }}/" class="btn btn-primary">&#x270D;</a>
                             </td>
-                            <td>
-                                <a href="/payment/delete/{{ payment.id }}/">&#10005;</a>
+                            <td class="text-center">
+                                <a href="/payment/delete/{{ payment.id }}/" class="btn btn-danger">&#10005;</a>
                             </td>
                         </tr>
                     {% endfor %}
                 {% endif %}
             </tbody>
         </table>
+    </div>
 
     {% endif %}
 

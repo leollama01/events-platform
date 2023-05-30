@@ -11,64 +11,92 @@
 </head>
 <body>
     {% include 'partials/header.html' %}
+    <img src="{% static 'img/event-img.jpg' %}" alt="event-img" class="event-bg op-01">
     {% if success %}
-        {{ success }}
+        {% include 'partials/success-alert.html' %}
     {% endif %}
     {% if fail %}
-        {{ fail }}
+        {% include 'partials/fail-alert.html' %}
     {% endif %}
     {% if event_info %}
-        <form action="/event/update/{{ event_info.id }}/" method="POST">
-            {% csrf_token %}
-            <input type="hidden" value={{ event_info.id }}>
-            <input type="text" placeholder="name" name="name" value="{{ event_info.name }}">
-            <input type="date" name="date" value="{{ event_info.date }}">
-            <input type="text" placeholder="local" name="local" value="{{ event_info.local }}">
-            <input type="text" placeholder="description" name="description" value="{{ event_info.description }}">
-            <input type="number" placeholder="free_space" name="free_space" value="{{ event_info.free_space }}">
-            <div>
-                <a href="/event/info/0/">voltar</a>
-                <button type="submit">Salvar</button>
+        <div class="container-fluid mb-3">
+            <div class="row justify-content-center">
+                <div class="col-md-6 mt-5">
+                    <div class="card shadow-lg">
+                        <div class="card-header">
+                            Atualizar Evento
+                        </div>
+                        <div class="card-body">
+                            <form action="/event/update/{{ event_info.id }}/" method="POST">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="input-name" class="form-label">Nome:</label>
+                                    <input type="text" class="form-control" id="input-name" name="name" value="{{ event_info.name }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="input-date" class="form-label">Data:</label>
+                                    <input type="date" class="form-control" id="input-date" name="date" value="{{ event_info.date }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="input-local" class="form-label">Local:</label>
+                                    <input type="text" class="form-control" id="input-local" name="local" value="{{ event_info.local }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="input-description" class="form-label">Descrição:</label>
+                                    <textarea class="form-control" id="input-description" rows="3" name="description" required>{{ event_info.description }}</textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="input-free-space" class="form-label">Espaço Livre:</label>
+                                    <input type="number" class="form-control" id="input-free-space" name="free_space" value="{{ event_info.free_space }}" required>
+                                </div>
+                                <div class="text-end">
+                                    <a href="/event/info/0/" class="btn btn-secondary">Voltar</a>
+                                    <button type="submit" class="btn btn-success">Salvar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </form>
-    {% else %}
-        <div>
-            <a href="/event/insert/">Adicionar novo evento</a>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Nome</th>
-                    <th>Data</th>
-                    <th>Local</th>
-                    <th>Descrição</th>
-                    <th>Editar</th>
-                    <th>Excluir</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if 'events' %}
-                    {% for event in events %}
-                        <tr>
-                            <td>{{ event.id }}</td>
-                            <td>{{ event.name }}</td>
-                            <td>{{ event.date }}</td>
-                            <td>{{ event.local }}</td>
-                            <td>{{ event.description }}</td>
-                            <td>
-                                <a href="/event/update/{{ event.id }}/">&#x1F58A;</a>
-                            </td>
-                            <td>
-                                <a href="/event/delete/{{ event.id }}/">&#10005;</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-            </tbody>
-        </table>
-        <a href="/">Página Inicial</a>
-
+    {% else %}
+        <div class="text-center m-3">
+            <a href="/event/insert/" class="btn btn-success">Adicionar novo evento</a>
+        </div>
+        <div class="my-container">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="d-none">Id</th>
+                        <th>Nome</th>
+                        <th>Data</th>
+                        <th>Local</th>
+                        <th>Descrição</th>
+                        <th>Editar</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if 'events' %}
+                        {% for event in events %}
+                            <tr>
+                                <td class="d-none">{{ event.id }}</td>
+                                <td>{{ event.name }}</td>
+                                <td>{{ event.date }}</td>
+                                <td>{{ event.local }}</td>
+                                <td>{{ event.description }}</td>
+                                <td class="text-center">
+                                    <a href="/event/update/{{ event.id }}/" class="btn btn-primary">&#x270D;</a>
+                                </td>
+                                <td class="text-center">
+                                    <a href="/event/delete/{{ event.id }}/" class="btn btn-danger">&#10005;</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
     {% endif %}
 
     <script src="{% static '/bootstrap/js/bootstrap.js' %}"></script>
